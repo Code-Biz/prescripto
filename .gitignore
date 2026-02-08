@@ -1,0 +1,11 @@
+# FRONTEND
+frontend/node_modules
+
+# BACKEND
+backend/node_modules
+backend/.env
+
+# GENERAL i.e ALL
+.env
+dist
+build

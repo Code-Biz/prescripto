@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+
+* {
+  font-family: Outfit;
+}
+
+/* when an object will contain a class active, the hr tag will be applied/changed to block */
+.active hr {
+  @apply block;
+}
+
+@theme {
+  --color-primary: #5f6fff;
+}
+
+@media (max-width: 740px) {
+  .active p {
+    @apply text-white bg-primary;
+  }
+}
+
+::-webkit-scrollbar {
+  @apply hidden;
+}

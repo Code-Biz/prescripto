@@ -1,0 +1,1 @@
+The config contains the functions and files that will be the main logic for the API

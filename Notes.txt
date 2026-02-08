@@ -1,0 +1,26 @@
+sm => screens >= 384px(24rem)
+md => screens >= 448px(28rem)
+lg => screens >= 512px(32rem)
+
+
+
+
+npm install express mongoose multer bcrypt cors dotenv cloudinary jsonwebtoken nodemon validator
+"type": "commonJS/module" in package.json -> Tells Node.js how to treat .js files in your project. commonJS is older format that uses require & module.exports where as module uses import and export just like in frontend, for importing and exporting funtions and module (like python modules)
+
+
+This is literally the entire lifecycle of data from clicking a button in React → getting processed → showing the result on screen. Every React-Express app works on this principle.
+// Frontend (React)
+//     ↓ fetch / axios
+// Server listening at specific port after started
+//     ↓ request is received via a specific API endpoint
+// API Endpoint (/api/users)    --->  PART OF BACKEND
+//     ↓
+// Backend Logic (Express)      --->  PART OF BACKEND
+//     • Query database
+//     • Apply filters / auth / calculations
+//     • Prepare data in JSON format
+//     ↓
+// Response (JSON)              --->  PART OF BACKEND
+//     ↓
+// Frontend receives data       ---> Now can render in React component
