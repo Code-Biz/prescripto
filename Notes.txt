@@ -13,14 +13,29 @@ This is literally the entire lifecycle of data from clicking a button in React �
 // Frontend (React)
 //     ↓ fetch / axios
 // Server listening at specific port after started
-//     ↓ request is received via a specific API endpoint
-// API Endpoint (/api/users)    --->  PART OF BACKEND
+//     ↓ request is received at a specific API endpoint via the port
+// API Endpoint (/api/users) located in the Routes folder links to a specific controller/function to run some business logic  --->  PART OF BACKEND, LOCATED IN THE ROUTES FOLDER. The endpoint Links to the correct Controller Function
 //     ↓
-// Backend Logic (Express)      --->  PART OF BACKEND
+// Backend Logic (Express)      --->  PART OF BACKEND, FUNCTIONS LOCATED IN THE CONTROLLERS FOLDER
 //     • Query database
 //     • Apply filters / auth / calculations
 //     • Prepare data in JSON format
 //     ↓
-// Response (JSON)              --->  PART OF BACKEND
+// Response (JSON)              --->  PART OF BACKEND 
 //     ↓
 // Frontend receives data       ---> Now can render in React component
+
+
+
+
+// Controllers : This folder contains Functions that control request to and response from database. These funcs handle the business logic
+// Middlewares : This folder contains Functions that run before controllers to process requests.
+// Models: This folder contains DB SChemas and Models
+// Routes: This folder contains Url endpoints linked to controllers
+
+//Quick tip to know where to add what:
+Does it store data? → model
+Does it do DB / business logic? → controller
+Does it protect / modify request? → middleware
+Does it map URL to action? → route
+Does it configure the app? → config

@@ -6,18 +6,24 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './config/mongodb.js';
+import connectCloudinary from './config/cloudinary.js';
+import adminRouter from './routes_API_ENDPOINTS/adminRoute.js';
 
 
 // ---------------- APP CONFIG ----------------
 const app = express();
 const port = process.env.PORT || 4000;
 connectDB()
+connectCloudinary()
 
 // ---------------- MIDDLEWARE ----------------
 app.use(express.json())                            //Any request made to/from the backend will get passed through this method to convert data to json as this method is middleware
 app.use(cors())                                    // decides which forntend (port or all ports) is allowed to talk to your backend. for the time beign all are allowed as nothing inisde cors brackets 
 
 // ---------------- API ENDPOINTS ----------------
+app.use('/api/admin', adminRouter)
+//localhost:4000/api/admin/add-doctor (at this endpoint i.e /api/admin the adminRouter will be used where the endpoint add-doctor will be called where then the upload middleware runs and then is called the addDocotr Controller Function)
+
 app.get('/', (req, res) => {
     res.send('THIS ENDPOINT AND THE API IS OK!')
 })
