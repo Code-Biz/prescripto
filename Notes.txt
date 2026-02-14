@@ -39,3 +39,26 @@ Does it do DB / business logic? → controller
 Does it protect / modify request? → middleware
 Does it map URL to action? → route
 Does it configure the app? → config
+
+
+
+
+
+
+
+| Feature         | CommonJS            | ES6 Modules     |
+| --------------- | ------------------- | --------------- |
+| Import          | `require()`         | `import`        |
+| Export          | `module.exports`    | `export`        |
+| Default export? | Yes (1 main export) | Yes             |
+| Modern?         | Older               | Modern standard |
+
+If you see:
+
+import something from ...
+→ That file used export default.
+
+If you see:
+
+import { something } from ...
+→ That file used export const.
