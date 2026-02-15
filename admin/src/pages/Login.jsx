@@ -9,8 +9,8 @@ const Login = () => {
 
   //Using AdminContext we are getting whatever has been provided by its Provider Gloabally. such as the setaToken in this case
   const { setAtoken, backendUrl } = useContext(AdminContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@prescripto.com");
+  const [password, setPassword] = useState("qwerty123");
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
