@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 
 //  ********************************************************************
-//              API-CONTROLLER FOR ADMIN LOGIN
+//              API-CONTROLLER FOR -> ADMIN LOGIN
 //  ____________________________________________________________________
 
 const loginAdmin = async (req, res) => {
@@ -33,7 +33,7 @@ const loginAdmin = async (req, res) => {
 
 
 //  ********************************************************************
-//             API-CONTROLLER FOR ADD DOCTOR BY ADMIN
+//             API-CONTROLLER FOR -> ADD DOCTOR BY ADMIN
 //  ____________________________________________________________________
 const addDoctor = async (req, res) => {
     try {
@@ -59,13 +59,13 @@ const addDoctor = async (req, res) => {
         const saltRounds = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
-        // const imageUrl = imageUpload.secure_url;
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+        const imageUrl = imageUpload.secure_url;
 
         const doctorData = {
 
             name, email,
-            // image: imageUrl,
+            image: imageUrl,
             password: hashedPassword, speciality, degree, experience, about, fees, address: JSON.parse(address), date: Date.now()
         }
 
@@ -81,5 +81,21 @@ const addDoctor = async (req, res) => {
     }
 }
 
+//  ********************************************************************
+//             API-CONTROLLER FOR -> ALL DOCTORS LIST
+//  ____________________________________________________________________
 
-export { loginAdmin, addDoctor }
+const allDoctors = async (req, res) => {
+
+    try {
+        const doctors = await doctorModel.find({}).select('-password');
+        res.json({ success: true, doctors })
+    } catch (error) {
+        console.log(error);
+        res.json({ success: true, message: error.message })
+
+
+    }
+};
+
+export { loginAdmin, addDoctor, allDoctors } 
