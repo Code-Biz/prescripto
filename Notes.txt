@@ -62,3 +62,6 @@ If you see:
 
 import { something } from ...
 → That file used export const.
+
+If we have to use some dynamic variable names (varaibles whovalue can change) in a string then we use template literals for those vaaraibles.
+-> string + dynamic_variable_name = use template literals. i.e hint: if it changes->use backticks

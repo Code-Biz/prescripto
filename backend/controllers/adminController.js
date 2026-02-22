@@ -4,8 +4,37 @@ import { v2 as cloudinary } from 'cloudinary'
 import doctorModel from '../models/doctorModel.js'
 import jwt from 'jsonwebtoken'
 
-// API for adding doctor
 
+//  ********************************************************************
+//              API-CONTROLLER FOR ADMIN LOGIN
+//  ____________________________________________________________________
+
+const loginAdmin = async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            const token = jwt.sign(email + password, process.env.JWT_SECRET);
+            res.json({ success: true, token })
+
+        }
+        else {
+
+            res.json({ success: false, message: "Invalid Credentials!" })
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+
+};
+
+
+//  ********************************************************************
+//             API-CONTROLLER FOR ADD DOCTOR BY ADMIN
+//  ____________________________________________________________________
 const addDoctor = async (req, res) => {
     try {
 
@@ -52,29 +81,5 @@ const addDoctor = async (req, res) => {
     }
 }
 
-// API FOR ADMIN LOGIN
-const loginAdmin = async (req, res) => {
 
-    try {
-        const { email, password } = req.body;
-
-        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET);
-            res.json({ success: true, token })
-
-        }
-        else {
-
-            res.json({ success: false, message: "Invalid Credentials!" })
-        }
-
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: error.message })
-    }
-
-};
-
-
-
-export { addDoctor, loginAdmin }
+export { loginAdmin, addDoctor }
