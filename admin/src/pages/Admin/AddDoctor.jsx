@@ -268,7 +268,7 @@ const AddDoctor = () => {
 
         <button
           type="submit"
-          className="text-white hover:scale-102 bg-primary mt-4 px-10 py-3 rounded-full"
+          className="text-white hover:scale-10 bg-primary hover:bg-indigo-400 mt-4 px-10 py-3 rounded-full"
         >
           Add Doctor
         </button>
