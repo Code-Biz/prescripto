@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import { useState } from "react";
 
 const Login = () => {
   const [state, setState] = useState("Sign Up");
@@ -12,7 +12,7 @@ const Login = () => {
   };
 
   return (
-    <form className="min-h-[80vh] flex items-center">
+    <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start border p-8 min-w-[320px] sm:min-w-96 rounded-xl text-zinc-600 text-sm shadow-lg">
         <p className="text-2xl font-semibold">
           {state === "Sign Up" ? "Create Account" : "Login "}

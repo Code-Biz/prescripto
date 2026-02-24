@@ -9,7 +9,7 @@ import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import adminRouter from './routes_API_ENDPOINTS/adminRoute.js';
 import doctorRouter from './routes_API_ENDPOINTS/doctorRoute.js';
-
+import userRouter from './routes_API_ENDPOINTS/userRoute.js'
 
 // ---------------- APP CONFIG ----------------
 const app = express();
@@ -25,7 +25,7 @@ app.use(cors())                                    // decides which forntend (po
 app.use('/api/admin', adminRouter)
 //localhost:4000/api/admin/add-doctor (at this endpoint i.e /api/admin the adminRouter will be used where the endpoint add-doctor will be called where then the upload middleware runs and then is called the addDocotr Controller Function)
 app.use('/api/doctor', doctorRouter)
-//localhost:4000/api/admin/add-doctor (at this endpoint i.e /api/admin the adminRouter will be used where the endpoint add-doctor will be called where then the upload middleware runs and then is called the addDocotr Controller Function)
+app.use('/api/user', userRouter)
 
 app.get('/', (req, res) => {
     res.send('THIS ENDPOINT AND THE API IS OK!')
