@@ -1,5 +1,12 @@
 import doctorModel from "../models/doctorModel.js";
 
+
+
+
+
+//  ********************************************************************
+//             API-CONTROLLER FOR -> CHANGING DOCTORS AVAILABILITY
+//  ____________________________________________________________________
 const changeAvailability = async (req, res) => {
     try {
         const { docId } = req.body;
@@ -17,4 +24,23 @@ const changeAvailability = async (req, res) => {
 };
 
 
-export { changeAvailability }
+
+//  ****************************************************************************
+//             API-CONTROLLER FOR -> ALL DOCTORS LIST ON GENERAL-FRONTEND SIDE
+//  ____________________________________________________________________________
+
+const allDoctorsGeneralFrontend = async (req, res) => {
+
+    try {
+        const doctors = await doctorModel.find({}).select(['-password', '-email']);
+        res.json({ success: true, doctors })
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+
+
+    }
+};
+
+
+export { changeAvailability, allDoctorsGeneralFrontend }

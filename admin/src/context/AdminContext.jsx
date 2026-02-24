@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 export const AdminContext = createContext();
 
 const AdminContextProvider = (props) => {
+
+
   //  ********************************************************************
   //             AUTHENTICATION
   //  ____________________________________________________________________
@@ -13,6 +15,8 @@ const AdminContextProvider = (props) => {
     localStorage.getItem("aToken") ? localStorage.getItem("aToken") : "",
   );
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+
 
   //  ********************************************************************
   //             ALL DOCTORS
@@ -38,6 +42,8 @@ const AdminContextProvider = (props) => {
       toast.error(error.message);
     }
   };
+
+  
 
   //  ********************************************************************
   //              CHANGE DOCTOR AVAILABILITY

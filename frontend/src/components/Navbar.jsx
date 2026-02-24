@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -9,9 +9,6 @@ const Navbar = () => {
   const [showProfileDropDown, setshowProfileDropDown] = useState(false);
   const [token, setToken] = useState(true);
 
-  useEffect(() => {
-    console.log(showProfileDropDown);
-  }, [showProfileDropDown]);
 
   return (
     <div className="flex items-center justify-between mb-5 py-4 text-sm border-b border-b-gray-400">
@@ -58,7 +55,7 @@ const Navbar = () => {
 
             <div
               className={`${
-                showProfileDropDown ? "block" : "hidden"
+                showProfileDropDown ? "block " : "hidden"
               }  group-hover:block absolute top-0 right-0 bottom-0 text-base text-gray-600 z-1  mt-14 font-medium`}
             >
               <div className="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
@@ -107,11 +104,11 @@ const Navbar = () => {
             showMenu ? "fixed w-full" : "h-0 w-0"
           } fixed lg:hidden top-0 bottom-0 right-0  bg-white  z-20 overflow-hidden transition-all duration-300`}
         >
-          <div className="flex items-center justify-between mb-5 py-6 px-5 hover:scale-10">
+          <div className="flex items-center justify-between mb-5 py-6 px-5 ">
             <img src={assets.logo} className="w-36" />
             <img
               src={assets.cross_icon}
-              className="w-7"
+              className="w-7 hover:scale-125 cursor-pointer"
               onClick={() => setShowMenu(false)}
             />
           </div>

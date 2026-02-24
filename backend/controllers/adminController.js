@@ -82,20 +82,20 @@ const addDoctor = async (req, res) => {
 }
 
 //  ********************************************************************
-//             API-CONTROLLER FOR -> ALL DOCTORS LIST
+//             API-CONTROLLER FOR -> ALL DOCTORS LIST ON ADMIN SIDE
 //  ____________________________________________________________________
 
-const allDoctors = async (req, res) => {
+const allDoctorsAdminFrontend = async (req, res) => {
 
     try {
         const doctors = await doctorModel.find({}).select('-password');
         res.json({ success: true, doctors })
     } catch (error) {
         console.log(error);
-        res.json({ success: true, message: error.message })
+        res.json({ success: false, message: error.message })
 
 
     }
 };
 
-export { loginAdmin, addDoctor, allDoctors } 
+export { loginAdmin, addDoctor, allDoctorsAdminFrontend } 
