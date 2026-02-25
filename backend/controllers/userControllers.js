@@ -22,10 +22,10 @@ const registerUser = async (req, res) => {
         //VALIDATION OF EMAIL, PASSWORD
 
         if (!validator.isEmail(email)) {
-            res.json({ success: false, message: "Enter valid email address!" })
+            return res.json({ success: false, message: "Enter valid email address!" })
         }
         if (password.length < 8) {
-            res.json({ success: false, message: `Hey ${name}! Password must be of 8 characters atleast` })
+            return res.json({ success: false, message: `Hey ${name}! Password must be of 8 characters atleast` })
         }
 
         //HASIHNG PASSWORD
@@ -44,18 +44,60 @@ const registerUser = async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         res.json({ success: true, token })
 
-
-
-
     } catch (error) {
-
         console.log(error);
         res.json({ success: false, message: error.message })
-
-
     }
 
 };
 
 
-export { registerUser }
+//  ********************************************************************
+//             API FOR USER LOGIN
+//  ____________________________________________________________________
+
+const loginUser = async (req, res) => {
+    try {
+
+        const { email, password } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.json({ success: false, message: "User deoes not exit!" })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (isMatch) {
+            const userToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+            res.json({ success: true, userToken })
+        }
+        else {
+
+            res.json({ success: false, message: "Incorrect Password" })
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+
+    }
+};
+
+
+//  ********************************************************************
+//             API TO GET USER PROFILE DATA
+//  ____________________________________________________________________
+
+const getProfile = async (req, res) => {
+    try {
+
+        const { userId } = reqbody;
+
+    } catch (error) {
+
+    }
+};
+
+
+export { registerUser, loginUser }

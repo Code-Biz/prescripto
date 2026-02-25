@@ -1,17 +1,64 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import axios from "axios"
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [state, setState] = useState("Sign Up");
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [state, setState] = useState("Login");
+  const  {backendUrl, userToken, setUserToken}= useContext(AppContext) ;
+  const navigate = useNavigate();
+  
   const onSubmitHandler = async (event) => {
-    event.preventDefault();
+        event.preventDefault();
+
+        try {
+          if(state==="Sign Up"){
+            const {data} = await axios.post(backendUrl+'/api/user/register',{name,email,password});
+            if(data.success){
+              localStorage.setItem('userToken',data.token)
+              setUserToken(data.token)
+              toast.success("Registration Successfull")
+            }
+            else{
+              toast.error(data.message)
+            }}
+
+            else{
+               const {data} = await axios.post(backendUrl+'/api/user/login',{email,password});
+            if(data.success){
+              localStorage.setItem('userToken',data.userToken)
+              setUserToken(data.userToken)
+              toast.success("Login Successfull")
+            }
+            else{
+              toast.error(data.message)
+            }
+            
+          }} catch (error) {
+            
+            toast.error(error.message)
+        }
   };
 
+ 
+  useEffect(()=>{
+      setName("");
+    setEmail("");
+    setPassword("");
+  },[state])
+
+  useEffect(()=>{ 
+  if(userToken){
+    navigate('/')
+  }  },[userToken])
+  
   return (
+    
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start border p-8 min-w-[320px] sm:min-w-96 rounded-xl text-zinc-600 text-sm shadow-lg">
         <p className="text-2xl font-semibold">
@@ -66,7 +113,7 @@ const Login = () => {
             className="border border-zinc-300 w-full rounded p-2 mt-1"
           />
         </div>
-        <button className="w-full bg-primary py-2 rounded-md text-base text-white">
+        <button type="submit" className="w-full bg-primary py-2 rounded-md text-base text-white">
           {state === "Sign Up" ? "Create Account" : "Login "}
         </button>
         {state === "Sign Up" ? (

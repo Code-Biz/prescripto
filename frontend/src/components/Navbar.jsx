@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileDropDown, setshowProfileDropDown] = useState(false);
-  const [token, setToken] = useState(true);
+  const {userToken, setUserToken} = useContext(AppContext) ;
 
+  const logout = ()=>{
+    setUserToken(false)
+    localStorage.removeItem('userToken')
+  };
 
   return (
     <div className="flex items-center justify-between mb-5 py-4 text-sm border-b border-b-gray-400">
       <img
         onClick={() => navigate("/")}
-        src={assets.logo}
+        src={assets.logo} 
         className="w-44 cursor-pointer"
       />
       <ul className="hidden md:flex items-start gap-5 font-medium ">
@@ -37,7 +42,7 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-4">
-        {token ? (
+        {userToken ? (
           <div
             className="flex items-center gap-2 cursor-pointer group relative"
             onClick={() => setshowProfileDropDown(!showProfileDropDown)}
@@ -74,13 +79,13 @@ const Navbar = () => {
                   My Appointments
                 </p>
                 <p
-                  onClick={() => setToken(false)}
+                  onClick={logout}
                   className="hover:text-black hover:font-bold cursor-pointer"
                 >
                   Log Out
                 </p>
               </div>
-            </div>
+            </div>  
           </div>
         ) : (
           <button
