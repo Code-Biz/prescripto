@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileDropDown, setshowProfileDropDown] = useState(false);
-  const {userToken, setUserToken} = useContext(AppContext) ;
+  const {userData, userToken, setUserToken} = useContext(AppContext) ;
 
   const logout = ()=>{
     setUserToken(false)
@@ -49,7 +49,7 @@ const Navbar = () => {
           >
             <img
               className="rounded-full w-10"
-              src={assets.profile_pic}
+              src={userData.image}
               alt="profile-pic"
             />
             <img

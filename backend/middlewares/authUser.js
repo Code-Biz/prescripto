@@ -7,7 +7,6 @@ const authUser = async (req, res, next) => {
     try {
 
         const { usertoken } = req.headers;
-        console.log(usertoken);
 
 
         if (!usertoken) {

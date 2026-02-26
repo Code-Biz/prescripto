@@ -2,5 +2,9 @@
   "postman.settings.dotenv-detection-notification-visibility": false,
   "reactSnippets.settings.prettierEnabled": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "tailwindCSS.emmetCompletions": true
+  "tailwindCSS.emmetCompletions": true,
+  "editor.formatOnSave": true,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

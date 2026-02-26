@@ -93,11 +93,11 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
     try {
 
-
         const { userId } = req.body;
         const userData = await userModel.findById(userId).select('-password');
-
         res.json({ success: true, userData })
+        console.log("getProfile() -> " + userData);
+
 
     } catch (error) {
 
@@ -117,8 +117,17 @@ const updateProfile = async (req, res) => {
         const { userId, name, phone, address, dob, gender } = req.body;
         const imageFile = req.file;
 
-        if (!name || !phone || !dob || !gender) {
-            return res.json({ success: false, message: "User Data Missing!" })
+        if (!name) {
+            return res.json({ success: false, message: "Name Missing!" })
+        }
+        if (!phone) {
+            return res.json({ success: false, message: "Phone Missing!" })
+        }
+        if (!dob) {
+            return res.json({ success: false, message: "DOB Data Missing!" })
+        }
+        if (!gender) {
+            return res.json({ success: false, message: "Gender Data Missing!" })
         }
         await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender })
 
