@@ -21,8 +21,9 @@ export default doctorModel
 
 // A model named doctor(s) is created based on doctorSchema on the MongoDB and doctoreModel is basically the Javascript varaiable to be used in the code by developer.
 
-// schema : its a structure like c++ classes structure -> You create a schema when you want structure + validation (e.g., user must have email, age is number).
-// model: made from schema that lets you perform crud in mongodb database. somewhtat its like the class objects -> You create a schema when you want structure + validation (e.g., user must have email, age is number).
+// schema : its a structure/database-design, like c++ classes structure -> You create a schema when you want structure + validation (e.g., user must have email, age is number).
+// model: its interface to database, made from schema that lets you perform crud in mongodb database. somewhtat its like the class objects -> You create a schema when you want structure + validation (e.g., user must have email, age is number).
+//document: the actual row in data base.
 
 // In SQL terms:
 // MongoDB Schema ≈ SQL table definition
