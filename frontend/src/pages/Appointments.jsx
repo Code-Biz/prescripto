@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 import RelatedDoctors from "../components/RelatedDoctors";
@@ -14,6 +14,8 @@ const Appointments = () => {
 
   const [docInfo, setDocInfo] = useState(null);
 
+  const navigate = useNavigate();
+
   const fetchDocInfo = async () => {
     const docInfo = doctors.find((doc) => doc._id === docId);
     setDocInfo(docInfo);
@@ -23,11 +25,21 @@ const Appointments = () => {
 
   const getAvailableSlots = async () => {
     // getting current date as e.g : Sun Dec 28 2025 11:51:12 GMT+0500
+
     let today = new Date();
+    let startingDay = 0;
+    let lastDay = 7;
+    if (today.getHours() < 21) {
+      startingDay = 0;
+      lastDay = 7;
+    } else {
+      startingDay = 1;
+      lastDay = 8;
+    }
     setDocSlots([]);
 
     //For loop starts from 0 so that the first iteration do not increments and so today's date is preserved in first iteration
-    for (let i = 0; i < 7; i++) {
+    for (let i = startingDay; i < lastDay; i++) {
       // getting date with index i.e todays value
       let currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i); // adding one to the exact date number e.g 28+1
@@ -42,7 +54,7 @@ const Appointments = () => {
       //On the very first iteration current date and today date or same so therefore the following will run only on first iteration
       if (today.getDate() === currentDate.getDate()) {
         currentDate.setHours(
-          currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10
+          currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10,
         );
         currentDate.setMinutes(currentDate.getMinutes() > 30 ? 0 : 30);
       } else {
@@ -66,7 +78,6 @@ const Appointments = () => {
         //Increment by 30 Minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
       }
-
       setDocSlots((prev) => [...prev, timeSlots]);
     }
   };
