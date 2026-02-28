@@ -151,6 +151,9 @@ const bookAppointment = async (req, res) => {
   try {
     // DOCTOR DATA AND SLOT BOOKING ON DOCTOR SIDE
     const { userId, docId, slotDate, slotTime } = req.body;
+
+    console.log(req.body);
+    
     const docData = await doctorModel.findById(docId).select("-password");
 
     if (!docData.available) {
@@ -181,7 +184,9 @@ const bookAppointment = async (req, res) => {
       docId,
       userData,
       docData,
-      ampunt: docData.fees,
+      amount: docData.fees,
+      slotTime,
+      slotDate,
       date: Date.now(),
     };
 
@@ -189,8 +194,9 @@ const bookAppointment = async (req, res) => {
     await newAppointment.save();
 
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+    res.json({ success:true, message: "Appointment Booked!" });
 
-    res.json({ status: true, message: "Appointment Booked!" });
+
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
