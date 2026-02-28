@@ -14,13 +14,14 @@ const Appointments = () => {
   const [slotIndex, setSlotIndex] = useState(0);
   const [slotTime, setSlotTime] = useState([]);
   const daysOfWeek = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
+  const slotSpan = 60;
 
   const [docInfo, setDocInfo] = useState(null);
 
   const navigate = useNavigate();
 
   const fetchDocInfo = async () => {
-    const docInfo = doctors.find((doc) => doc._id === docId);
+    const docInfo = await doctors.find((doc) => doc._id === docId);
     setDocInfo(docInfo);
 
     // console.log(docInfo);
@@ -44,6 +45,7 @@ const Appointments = () => {
     //For loop starts from 0 so that the first iteration do not increments and so today's date is preserved in first iteration
     for (let i = startingDay; i < lastDay; i++) {
       // getting date with index i.e todays value
+      //currentDate basically acts as a variable name for every individual date slot in the for loop that is to be creaated on every iteration
       let currentDate = new Date(today);
       currentDate.setDate(today.getDate() + i); // adding one to the exact date number e.g 28+1
       // console.log("Day: " + i + " - > " + currentDate);
@@ -59,7 +61,9 @@ const Appointments = () => {
         currentDate.setHours(
           currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10,
         );
-        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
+        currentDate.setMinutes(
+          currentDate.getMinutes() > slotSpan ? slotSpan : 0,
+        );
       } else {
         currentDate.setHours(10);
         currentDate.setMinutes(0);
@@ -73,13 +77,28 @@ const Appointments = () => {
           minute: "2-digit",
         });
 
-        timeSlots.push({
-          date: new Date(currentDate),
-          formattedHour: formattedTime,
-        });
+        let day = currentDate.getDate();
+        let month = currentDate.getMonth() + 1;
+        let year = currentDate.getFullYear();
+
+        const slotDate = day + "_" + month + "_" + year;
+        const slotTime = formattedTime;
+
+        const isSlotAvailable =
+          docInfo.slots_booked[slotDate] &&
+          docInfo.slots_booked[slotDate].includes(slotTime)
+            ? false
+            : true;
+
+        if (isSlotAvailable) {
+          timeSlots.push({
+            date: new Date(currentDate),
+            formattedHour: formattedTime,
+          });
+        }
 
         //Increment by 30 Minutes
-        currentDate.setMinutes(currentDate.getMinutes() + 30);
+        currentDate.setMinutes(currentDate.getMinutes() + slotSpan);
       }
       setDocSlots((prev) => [...prev, timeSlots]);
     }
@@ -128,6 +147,7 @@ const Appointments = () => {
   }, [docId, doctors]);
 
   useEffect(() => {
+    if (!docInfo?.slots_booked) return;
     getAvailableSlots();
   }, [docInfo]);
 
