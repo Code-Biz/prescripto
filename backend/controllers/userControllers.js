@@ -203,4 +203,61 @@ const bookAppointment = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment };
+//  ********************************************************************
+//             API FOR GETTING APPOINTMENT FOR MY APPOINTMENTS PAGE
+//  ____________________________________________________________________
+
+const getUserAppointments = async (req,res) => {
+  
+  try {
+    const {userId} = req.body;
+    const appointmentsData = await appointmentModel.find({userId});
+    
+    res.json({success:true, appointmentsData})
+
+  } catch (error) {
+    
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};    
+
+
+//  ********************************************************************
+//             API TO CANCEL APPOINTMENT
+//  ____________________________________________________________________
+const cancellAppointment = async (req,res) => {
+  try {
+   
+    const {userId, appointmentId} = req.body;
+    console.log(userId +"----" +appointmentId);
+    
+    const appointmentData = await appointmentModel.findById(appointmentId);
+  
+    if(appointmentData.userId !== userId){
+      return res.json({success:false, message:"Unauthorized Action!"})
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {cancelled:true})
+
+
+    //RELEASING DOCTOR SLOT AFTER CANCELLATION OF APPOINTMENT
+    const {docId, slotDate, slotTime} = await appointmentData;
+
+    const doctorData = await doctorModel.findById(docId);
+    let slots_booked  = doctorData.slots_booked;
+    //In the below line we have filtered all those booked hours/slots with the help of variable timeslot except the one that matches the time of the appoinment that is cancelled
+    slots_booked[slotDate] = slots_booked[slotDate].filter(timeslot=>timeslot!=slotTime)
+    
+    //Now replacing the old slots_booked with the new one that do not contained the cancelled appointment slot
+    await doctorModel.findByIdAndUpdate(docId,{slots_booked})
+
+    res.json({ success: true, message: 'Appointment Cancelled' });
+    
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+  
+};
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, getUserAppointments, cancellAppointment };

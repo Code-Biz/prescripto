@@ -139,10 +139,6 @@ const Appointments = () => {
   };
 
   useEffect(() => {
-    console.log(docSlots);
-  }, [docSlots]);
-
-  useEffect(() => {
     fetchDocInfo();
   }, [docId, doctors]);
 
