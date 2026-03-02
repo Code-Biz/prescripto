@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 export const AdminContext = createContext();
 
 const AdminContextProvider = (props) => {
-
-
   //  ********************************************************************
   //             AUTHENTICATION
   //  ____________________________________________________________________
@@ -15,8 +13,6 @@ const AdminContextProvider = (props) => {
     localStorage.getItem("aToken") ? localStorage.getItem("aToken") : "",
   );
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-
 
   //  ********************************************************************
   //             ALL DOCTORS
@@ -43,35 +39,49 @@ const AdminContextProvider = (props) => {
     }
   };
 
-  
-
   //  ********************************************************************
   //              CHANGE DOCTOR AVAILABILITY
   //  ____________________________________________________________________
-
-
-const changeAvailability = async (docId) => {
-
-try {
-  const {data} = await axios.post(
+  const changeAvailability = async (docId) => {
+    try {
+      const { data } = await axios.post(
         backendUrl + "/api/admin/change-availability",
-        {docId},
+        { docId },
         { headers: { aToken } },
       );
 
-       
-if (data.success) {
-        toast.success(data.message); 
-        getAllDoctors()
+      if (data.success) {
+        toast.success(data.message);
+        getAllDoctors();
       } else {
         toast.error(data.message);
       }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
-} catch (error) {
-  toast.error(error.message)
-}  
-};
-  
+  //  ********************************************************************
+  //             FETCH ALL ADMIN APPOONTMENTS
+  //  ____________________________________________________________________
+  const [appointments, setAppointments] = useState([]);
+
+  const getAdminAppointments = async () => {
+    try {
+      const { data } = await axios.get(backendUrl + "/api/admin/appointments", {
+        headers: { aToken },
+      });
+      if (data.success) {
+        setAppointments(data.appointments);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   //  ********************************************************************
   //              VALUES OF CONTEXT
   //  ____________________________________________________________________
@@ -81,7 +91,10 @@ if (data.success) {
     backendUrl,
     allDoctors,
     getAllDoctors,
-    changeAvailability
+    changeAvailability,
+    appointments,
+    setAppointments,
+    getAdminAppointments,
   };
 
   return (

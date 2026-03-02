@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
+import razorpay from 'razorpay'
 
 //  ********************************************************************
 //             API FOR USER REGISTRATION
@@ -260,4 +261,24 @@ const cancellAppointment = async (req,res) => {
   }
   
 };
+
+//  **************************************************************************
+//             PAYMENT VIA RAZOR USING RAZOR PAY API (LEFT PAYMENT INTEGRATION BCZ OF RAZOR PAYS KYC AND PAYMENT ACCOUNT CREATION!)
+//  ____________________________________________________________________
+
+// const razorpayInstance = new razorpay({
+//     key_id:'',
+//     key_secret:'',
+// }) 
+
+// const paymentRazorpay = async (req,res) => {
+//   try {
+    
+//   } catch (error) { 
+//     console.log(error)
+//     res.json({success:false, message:error.message})
+//   }
+  
+// };
+
 export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, getUserAppointments, cancellAppointment };
