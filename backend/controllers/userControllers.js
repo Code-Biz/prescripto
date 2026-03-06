@@ -205,7 +205,7 @@ const bookAppointment = async (req, res) => {
 };
 
 //  ********************************************************************
-//             API FOR GETTING APPOINTMENT FOR MY APPOINTMENTS PAGE
+//   API FOR GETTING APPOINTMENTS FOR MY APPOINTMENTS PAGE VIA USER_ID
 //  ____________________________________________________________________
 
 const getUserAppointments = async (req,res) => {

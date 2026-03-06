@@ -18,3 +18,7 @@ const appointmentModel =
   mongoose.models.appointment ||
   mongoose.model("appointment", appointmentSchema);
 export default appointmentModel;
+
+
+
+//THESE APPOINTMENTS ARE GET STORED FROM THE USERCONTROLLER, ALL USER APPOINTMENTS ARE STORED UNDER APPOINTMENTS MODEL
