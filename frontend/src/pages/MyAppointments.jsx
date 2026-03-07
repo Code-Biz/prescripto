@@ -131,7 +131,10 @@ const MyAppointments = () => {
                     </button>
 
                     <button
-                      onClick={() => cancellAppointment(item._id)}
+                      onClick={() => {
+                        cancellAppointment(item._id);
+                        getUserAppointments();
+                      }}
                       className="text-stone-500 text-sm border rounded hover:bg-red-600 hover:text-white py-2 sm:min-w-48 transition-all dura"
                     >
                       Cancel Appointment

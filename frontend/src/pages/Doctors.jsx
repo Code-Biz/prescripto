@@ -45,7 +45,7 @@ const Doctors = () => {
             onClick={() =>
               speciality === "General physician"
                 ? navigate("/doctors")
-                : navigate("/doctors/General physician")
+                : navigate("/doctors/General Physician")
             }
             className={`w-[94vw] sm:w-auto py-2 pl-3 pr-15 border border-gray-300 rounded hover:scale-105 transition-all duration-300 cursor-pointer ${
               speciality === "General physician"
@@ -53,7 +53,7 @@ const Doctors = () => {
                 : ""
             }`}
           >
-            General physician
+            General Physician
           </p>
           <p
             onClick={() =>
@@ -126,15 +126,21 @@ const Doctors = () => {
           {filteredDocs.length > 0 ? (
             filteredDocs.map((item, index) => (
               <div
-              key={index}
+                key={index}
                 onClick={() => navigate(`/appointments/${item._id}`)}
                 className="w-fit border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] duration-300"
               >
                 <img src={item.image} alt="" className="bg-blue-50" />
                 <div className="p-4">
-                  <div className="flex items-center gap-2 text-sm text-center text-green-500">
-                    <p className="w-2 h-2 bg-green-500 rounded-full "></p>
-                    <p>Available</p>
+                  <div className="flex items-center gap-2 text-sm text-center ">
+                    <p
+                      className={`w-2 h-2 ${item.available ? "bg-green-500" : "bg-red-400"}  rounded-full `}
+                    ></p>
+                    <p
+                      className={`${item.available ? "text-green-500" : "text-red-400"}`}
+                    >
+                      {item.available ? "Available" : "Not Available"}
+                    </p>
                   </div>
                   <p className="text-gray-900 font-medium">{item.name}</p>
                   <p className="text-gray-600 text-sm">{item.speciality}</p>

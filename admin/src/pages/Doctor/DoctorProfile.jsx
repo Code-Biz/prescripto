@@ -4,13 +4,46 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const DoctorProfile = () => {
-  const { dToken, profileData, setProfileData, getProfileData } =
-    useContext(DoctorContext);
+  const {
+    dToken,
+    profileData,
+    setProfileData,
+    getProfileData,
+    currency,
+    backendUrl,
+  } = useContext(DoctorContext);
 
-  const { currency, backendUrl } = useContext(AppContext);
   const [isEdit, setIsEdit] = useState(false);
+
+  const updateProfile = async () => {
+    try {
+      const updatedData = {
+        address: profileData.address,
+        fees: profileData.fees,
+        available: profileData.available,
+      };
+
+      const { data } = await axios.post(
+        backendUrl + "/api/doctor/updateDocProfile",
+        updatedData,
+        { headers: { dToken } },
+      );
+      if (data.success) {
+        toast.success(data.message);
+        setIsEdit(false);
+        getProfileData();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
   useEffect(() => {
     if (dToken) {
@@ -75,24 +108,72 @@ const DoctorProfile = () => {
             <div className="flex gap-2 py-2">
               <p>Address: </p>
               <p className="text-sm mt-1">
-                {profileData.address.line1}
+                {isEdit ? (
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setProfileData((prev) => ({
+                        ...prev,
+                        address: { ...prev.address, line1: e.target.value },
+                      }))
+                    }
+                    value={profileData.address.line1}
+                  />
+                ) : (
+                  profileData.address.line1
+                )}
                 <br />
-                {profileData.address.line2}
+                {isEdit ? (
+                  <input
+                    type="text"
+                    onChange={(e) =>
+                      setProfileData((prev) => ({
+                        ...prev,
+                        address: { ...prev.address, line2: e.target.value },
+                      }))
+                    }
+                    value={profileData.address.line2}
+                  />
+                ) : (
+                  profileData.address.line2
+                )}
               </p>
             </div>
             <div className="flex gap-2 pt-2">
-              <input checked={profileData.available} type="checkbox" />
+              <input
+                checked={profileData.available}
+                onChange={() =>
+                  isEdit &&
+                  setProfileData((prev) => ({
+                    ...prev,
+                    available: !prev.available,
+                  }))
+                }
+                type="checkbox"
+              />
               <label for="">Available</label>
             </div>
-            <button
-              onClick={() => {
-                setIsEdit(!isEdit);
-                console.log(isEdit);
-              }}
-              className="px-4 py-1 border border-primary text-sm rounded-full mt-5 hover:bg-primary hover:text-white transition-all"
-            >
-              Edit
-            </button>
+
+            {isEdit ? (
+              <button
+                onClick={() => {
+                  updateProfile();
+                }}
+                className="px-4 py-1 border border-primary text-sm rounded-full mt-5 hover:bg-primary hover:text-white transition-all"
+              >
+                Save
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsEdit(!isEdit);
+                  console.log(isEdit);
+                }}
+                className="px-4 py-1 border border-primary text-sm rounded-full mt-5 hover:bg-primary hover:text-white transition-all"
+              >
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </div>

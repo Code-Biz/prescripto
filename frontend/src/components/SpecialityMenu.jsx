@@ -9,7 +9,7 @@ const SpecialityMenu = () => {
       id="speciality"
       className="flex flex-col items-center gap-4 py-16 text-gray-800"
     >
-      <h2 className="font-medium text-3xl">FInd By Speciality</h2>
+      <h2 className="font-medium text-3xl">Find By Speciality</h2>
       <p className="sm:w-1/3 text-center text-sm">
         Simply browse through our extensive list of trusted doctors, schedule
         your appointment hassle-free.

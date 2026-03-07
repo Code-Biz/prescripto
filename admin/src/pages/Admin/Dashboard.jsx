@@ -54,11 +54,11 @@ const Dashboard = () => {
         <div className="bg-white">
           <div className="flex items-center gap-2.5 p-4 mt-10 rounded-t border">
             <img src={assets.list_icon} />
-            <p className="font-semibold">Latest Bookings</p>
+            <p className="font-semibold">20 Latest Bookings</p>
           </div>
 
-          <div className="pt-4 border border-t-0">
-            {appointments.length === 0 ? (
+          <div className="pt-4 border border-t-0 max-h-120 overflow-y-scroll">
+            {appointments.latest_appointments === 0 ? (
               <div>
                 <p className="text-primary font-light text-4xl m-10 flex justify-center">
                   No Appointments Till Now!
@@ -85,6 +85,10 @@ const Dashboard = () => {
                   {appointment.cancelled ? (
                     <p className="text-red-400 text-xs font-medium">
                       Cancelled
+                    </p>
+                  ) : appointment.isCompleted ? (
+                    <p className="text-green-500 text-xs font-medium">
+                      Completed
                     </p>
                   ) : (
                     <img

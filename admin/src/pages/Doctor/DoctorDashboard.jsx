@@ -95,6 +95,7 @@ const DoctorDashboard = () => {
                       <img
                         onClick={() => {
                           cancelAppointment(appointment._id);
+                          getDocDashData();
                         }}
                         src={assets.cancel_icon}
                         alt=""
@@ -103,6 +104,7 @@ const DoctorDashboard = () => {
                       <img
                         onClick={() => {
                           completeAppointment(appointment._id);
+                          getDocDashData();
                         }}
                         src={assets.tick_icon}
                         alt=""
